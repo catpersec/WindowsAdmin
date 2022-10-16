@@ -1,0 +1,79 @@
+Name;DisplayName
+PolicyAgent;Agent zasad IPsec
+WlanSvc;Autokonfiguracja sieci WLAN
+NcdAutoSetup;Autokonfiguracja urzadzen podlaczon...
+dot3svc;Automatyczna konfiguracja sieci prz...
+WwanSvc;Automatyczne konfigurowanie bezprze...
+PeerDistSvc;BranchCache
+HomeGroupProvider;Dostawca grupy domowej
+Fax;Faks
+workfolderssvc;Foldery robocze
+p2psvc;Grupowanie sieci r�wnorz�dnej
+fdPHost;Host dostawcy odnajdowania funkcji
+KeyIso;Izolacja klucza CNG
+SCardSvr;Karta inteligentna
+Dhcp;Klient DHCP
+Dnscache;Klient DNS
+TrkWks;Klient �ledzenia link�w rozproszonych
+seclogon;Logowanie pomocnicze
+lltdsvc;Mapowanie z odnajdywaniem topologii...
+RasAuto;Mened�er autopo��czenia dost�pu zda...
+XblAuthManager;Mened�er autoryzacji Xbox Live
+SessionEnv;Mened�er konfiguracji us�ug pulpitu...
+MapsBroker;Mened�er pobranych map
+Wcmsvc;Mened�er po��cze� systemu Windows
+RasMan;Mened�er po��cze� us�ugi Dost�p zdalny
+p2pimsvc;Mened�er to�samo�ci sieci r�wnorz�dnej
+IKEEXT;Modu�y obs�ugi kluczy IPsec IKE i A...
+Netlogon;Netlogon
+SSDPSRV;Odnajdywanie SSDP
+CscService;Pliki trybu offline
+wcncsvc;Po��cz teraz w systemie Windows � R...
+Netman;Po��czenia sieciowe
+iphlpsvc;Pomoc IP
+lmhosts;Pomoc TCP/IP NetBIOS
+CertPropSvc;Propagacja certyfikatu
+PNRPsvc;Protok� rozpoznawania nazw r�wnorz...
+Eaphost;Protok� uwierzytelniania rozszerzo...
+UmRdpService;Przekierowanie portu trybu u�ytkown...
+FDResPub;Publikacja zasob�w odnajdowania fun...
+Browser;Przegl�darka komputerowa
+QWAVE;Quality Windows Audio Video Experience
+RemoteRegistry;Rejestr zdalny
+RemoteAccess;Routing i dost�p zdalny
+NlaSvc;Rozpoznawanie lokalizacji w sieci
+LanmanServer;Serwer
+FrameServer;Serwer klatek kamer systemu Windows
+SNMPTRAP;SNMP Trap
+LanmanWorkstation;Stacja robocza
+TapiSrv;Telefonia
+SharedAccess;Udost�pnianie po��czenia internetow...
+WinHttpAutoProxySvc;Us�uga autowykrywania serwera proxy...
+WbioSrvc;Us�uga biometryczna systemu Windows
+ALG;Us�uga bramy warstwy aplikacji
+lfsvc;Us�uga geolokalizacji
+icssvc;Us�uga hotspotu mobilnego systemu W...
+BITS;Us�uga inteligentnego transferu w tle
+nsi;Us�uga interfejsu magazynu sieciowego
+TabletInputService;Us�uga klawiatury dotykowej i panel...
+NetSetupSvc;Us�uga konfiguracji sieci
+netprofm;Us�uga listy sieci
+irmon;Usluga monitora podczerwieni
+ListSvc;Usluga nasluchu grup domowych
+bthserv;Us�uga obs�ugi Bluetooth
+BthHFSrv;Us�uga obs�ugi urz�dze� g�o�nom�wi�cych Bluetooth
+SstpSvc;Us�uga Protok� SSTP
+PNRPAutoReg;Us�uga publikowania nazw komputer�w...
+WerSvc;Us�uga raportowania b��d�w systemu ...
+XboxNetApiSvc;Us�uga sieciowa Xbox Live
+PhoneSvc;Us�uga telefoniczna
+NetTcpPortSharing;Us�uga udost�pniania port�w Net.Tcp
+WMPNetworkSvc;Us�uga udost�pniania w sieci progra...
+RmSvc;Us�uga zarz�dzania radiem
+TermService;Us�ugi pulpitu zdalnego
+W32Time;Windows Time
+wuauserv;Windows Update
+XblGameSave;Zapisywanie gier Xbox Live
+AppMgmt;Zarz�dzanie aplikacjami
+SCPolicySvc;Zasady usuwania karty inteligentnej
+WinRM;Zdalne zarz�dzanie systemem Windows...
