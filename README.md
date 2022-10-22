@@ -2,7 +2,6 @@
 	- [Wstęp](#wstęp)
 	- [Instrukcja](#instrukcja)
 	- [Linki](#linki)
-- [Autor i kontakt](#autor-i-kontakt)
 
 
 # Windows-Audit

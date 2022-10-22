@@ -61,7 +61,7 @@ Write-Host "--------------------------------------------------------------------
 
 Foreach ($exe in $exek){
     Write-Host ""
-    Write-Host "EXE:`t" $exe -ForegroundColor Black -BackgroundColor Green -NoNewline
+    Write-Host "EXE:`t" $exe -ForegroundColor Black -BackgroundColor Yellow -NoNewline
     Write-Host "" -ForegroundColor White -BackgroundColor Black
     $acls = (Get-Acl C:\Windows\SysWOW64\$exe).Access | Select-Object FileSystemRights,AccessControlType,IdentityReference
     Foreach ($acl in $acls){
@@ -106,5 +106,3 @@ Foreach ($exe in $exek){
         }
     }
 }
-
-Read-Host
