@@ -5,6 +5,9 @@ $rootDir = [System.IO.Path]::GetDirectoryName($MyInvocation.MyCommand.Path)
 $UpdateSession = New-Object -ComObject Microsoft.Update.Session 
 $UpdateServiceManager  = New-Object -ComObject Microsoft.Update.ServiceManager
 
+New-Item -Path "$rootDir" -Name "required_updates" -ItemType "directory"
+
+
 Write-Output "Wybierz plik wsusscn2.cab z najnowsza baze aktualizacji"
 
 Add-Type -AssemblyName System.Windows.Forms
