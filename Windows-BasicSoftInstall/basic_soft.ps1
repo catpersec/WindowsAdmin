@@ -1,15 +1,14 @@
-$scriptDir = $PSScriptRoot
-$scriptName = $MyInvocation.MyCommand
-$scriptPath = "$scriptDir\$scriptName"
 
 try {
     $install = choco -v;
-	Write-Host "Chocolatey installed. Chocolatey version: " $install " . Software installation will proceed."\
+	Write-Host "Chocolatey installed. Chocolatey version: " $install " . Software installation will proceed."
 }  
 catch {
     Write-Host "Chocolatey not installed. Chocolatey installation will be performed"  -ForegroundColor Yellow
 	Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-	& $scriptPath
+    #invoke-expression 'cmd /c start powershell -Command {write-host "hello";read-host}'
+    Write-Host ""
+    Write-Host "Powershell restart required!"
 	exit
 }
 
