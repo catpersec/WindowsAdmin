@@ -27,7 +27,7 @@ $year = Read-Host "Podaj rok"
 $month = Read-Host "Podaj miesiac"
 $day = Read-Host "Podaj dzien"
 $date = Get-Date -Year $year -Month $month -Day $day
-$usergroup = get-localgroup | Where-Object Description -match "przypadkowych ani celowych zmian na poziomie"    
+$usergroup = get-localgroup | Where-Object Description -match "przypadkowych ani celowych zmian na poziomie"  
 
 #$password = ConvertTo-SecureString "LazyAdminPwd123!" -AsPlainText -Force  # Super strong plane text password here (yes this isn't secure at all)
 $logFile = "C:\log\log.txt"
@@ -60,16 +60,36 @@ Function Create-LocalUser {
         $user.PasswordExpired = 1
         $user.SetInfo()
 
+        New-Item -Name "$username" -Path "C:\" -ItemType Directory
+        
       }catch{
         Write-log -message "Creating local account or adding to user group failed" -level "ERROR"
       }
     }    
 }
 
+Function aclset {
+  # Variables
+  $FolderPath = "C:\$username"
+
+  # Remove all permissions and inheritance from folder
+  $acl = Get-Acl $FolderPath
+  $acl.SetAccessRuleProtection($true,$false)
+  $acl | Set-Acl $FolderPath
+
+  # Add ACL for user
+  $id = Get-LocalUser $username
+  $acl = Get-Acl $FolderPath
+  $AccessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($id,"Modify","Allow")
+  $acl.SetAccessRule($AccessRule)
+  $acl | Set-Acl $FolderPath   
+}
+
 Write-Log -message "#########"
 Write-Log -message "$env:COMPUTERNAME - Create local user account"
 
 Create-LocalUser
+aclset
 
 Write-Log -message "#########"
 
