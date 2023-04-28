@@ -1,19 +1,4 @@
-<#
-.SYNOPSIS
-  Create local admin acc
 
-.DESCRIPTION
-  Creates a local administrator account on de computer. Requires RunAs permissions to run
-
-.OUTPUTS
-  none
-
-.NOTES
-  Version:        1.0
-  Author:         R. Mens - LazyAdmin.nl
-  Creation Date:  25 march 2022
-  Purpose/Change: Initial script development
-#>
 
 # Configuration
 $username = Read-Host "Podaj nazwe uzytkownika"
@@ -28,6 +13,7 @@ $month = Read-Host "Podaj miesiac"
 $day = Read-Host "Podaj dzien"
 $date = Get-Date -Year $year -Month $month -Day $day
 $usergroup = get-localgroup | Where-Object Description -match "przypadkowych ani celowych zmian na poziomie"  
+$admingroup = Get-LocalGroup | Where-Object "Description" -match "Administratorzy mają pełny i nieograniczony dostęp"
 
 #$password = ConvertTo-SecureString "LazyAdminPwd123!" -AsPlainText -Force  # Super strong plane text password here (yes this isn't secure at all)
 $logFile = "C:\log\log.txt"
@@ -60,22 +46,27 @@ Function Create-LocalUser {
         $user.PasswordExpired = 1
         $user.SetInfo()
 
-        New-Item -Name "$username" -Path "C:\" -ItemType Directory
-        
+        New-Item -Name "$username" -Path "G:\" -ItemType Directory
+        New-Item -Name "$username" -Path "E:\" -ItemType Directory
+		New-Item -Name "$username" -Path "F:\" -ItemType Directory
+     
+
       }catch{
         Write-log -message "Creating local account or adding to user group failed" -level "ERROR"
       }
     }    
 }
 
-Function aclset {
+Function aclset ($letter) {
   # Variables
-  $FolderPath = "C:\$username"
+  $FolderPath = "${letter}:\$username"
 
   # Remove all permissions and inheritance from folder
   $acl = Get-Acl $FolderPath
   $acl.SetAccessRuleProtection($true,$false)
   $acl | Set-Acl $FolderPath
+
+
 
   # Add ACL for user
   $id = Get-LocalUser $username
@@ -89,7 +80,9 @@ Write-Log -message "#########"
 Write-Log -message "$env:COMPUTERNAME - Create local user account"
 
 Create-LocalUser
-aclset
+aclset "G"
+aclset "E"
+aclset "F"
+
 
 Write-Log -message "#########"
-
