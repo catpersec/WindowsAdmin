@@ -13,7 +13,6 @@ $month = Read-Host "Podaj miesiac"
 $day = Read-Host "Podaj dzien"
 $date = Get-Date -Year $year -Month $month -Day $day
 $usergroup = get-localgroup | Where-Object Description -match "przypadkowych ani celowych zmian na poziomie"  
-$admingroup = Get-LocalGroup | Where-Object "Description" -match "Administratorzy mają pełny i nieograniczony dostęp"
 
 #$password = ConvertTo-SecureString "LazyAdminPwd123!" -AsPlainText -Force  # Super strong plane text password here (yes this isn't secure at all)
 $logFile = "C:\log\log.txt"
@@ -36,11 +35,11 @@ Function Create-LocalUser {
     process {
       try {
         New-LocalUser "$username" -Password $password -FullName $fullname -Description $description -AccountExpires $date -ErrorAction stop
-        Write-Log -message "$username local user crated"
+        Write-Log -message "$username uzytkownik lokalny utworzony"
 
         # Add new user to administrator group
         Add-LocalGroupMember -Group $usergroup -Member $username -ErrorAction stop
-        Write-Log -message "$username added to the local users group"
+        Write-Log -message "$username dodany do lokalnej grupu Uzytkownicy"
 
         $user = [ADSI]"WinNT://$env:ComputerName/$username,user"
         $user.PasswordExpired = 1
@@ -48,11 +47,11 @@ Function Create-LocalUser {
 
         New-Item -Name "$username" -Path "G:\" -ItemType Directory
         New-Item -Name "$username" -Path "E:\" -ItemType Directory
-		New-Item -Name "$username" -Path "F:\" -ItemType Directory
+		    New-Item -Name "$username" -Path "F:\" -ItemType Directory
      
 
       }catch{
-        Write-log -message "Creating local account or adding to user group failed" -level "ERROR"
+        Write-log -message "Wystapil blad przy tworzeniu uzytkownika / dodawaniu do grupy lokalnej / tworzeniu katalogow." -level "ERROR"
       }
     }    
 }
@@ -66,8 +65,6 @@ Function aclset ($letter) {
   $acl.SetAccessRuleProtection($true,$false)
   $acl | Set-Acl $FolderPath
 
-
-
   # Add ACL for user
   $id = Get-LocalUser $username
   $acl = Get-Acl $FolderPath
@@ -77,7 +74,8 @@ Function aclset ($letter) {
 }
 
 Write-Log -message "#########"
-Write-Log -message "$env:COMPUTERNAME - Create local user account"
+Write-Log -message "$env:UserName - Administrator wykonujacy"
+Write-Log -message "$env:COMPUTERNAME - Utworzenie uzytkownika"
 
 Create-LocalUser
 aclset "G"
@@ -86,3 +84,4 @@ aclset "F"
 
 
 Write-Log -message "#########"
+
