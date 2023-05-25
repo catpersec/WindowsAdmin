@@ -38,11 +38,13 @@ choco feature enable -n allowGlobalConfirmation
 #choco install spotify --force
 
 ## Browsers
-#choco install Firefox --force
-#choco GoogleChrome --force
+# choco install Firefox --force
+# choco GoogleChrome --force
+# choco install Opera --force
 
 ## PDF reading
 #choco install adobereader --force
+#choco install FoxitReader --force
 
 ## PDF editors
 #choco install PDFXchangeEditor --force
@@ -59,20 +61,20 @@ choco feature enable -n allowGlobalConfirmation
 
 # Manage windows
 ## OOSU10 - START (uncomment all lines in section in order to create shurtcut to oosu on desktop)
-$shutup_install = choco install shutup10 --force
-$pattern = "Software installed to '(.+)'"
-$regex = [regex]::new($pattern)
-$shutup10_install_path_raw = $regex.Match($shutup_install)
-if ($shutup10_install_path_raw.Success) {
-    $shutup10_install_path_only = $shutup10_install_path_raw.Groups[1].Value
-} else {
-}
-$WshShell = New-Object -comObject WScript.Shell
-$Shortcut = $WshShell.CreateShortcut("$Home\Desktop\shutup10.lnk")
-$target_path = $shutup10_install_path_only + "\tools\OOSU10.exe"
-$Shortcut.TargetPath = $target_path
-$Shortcut.Save()
-Write-Host "O&O Shutup10 installed."
+# $shutup_install = choco install shutup10 --force
+# $pattern = "Software installed to '(.+)'"
+# $regex = [regex]::new($pattern)
+# $shutup10_install_path_raw = $regex.Match($shutup_install)
+# if ($shutup10_install_path_raw.Success) {
+#     $shutup10_install_path_only = $shutup10_install_path_raw.Groups[1].Value
+# } else {
+# }
+# $WshShell = New-Object -comObject WScript.Shell
+# $Shortcut = $WshShell.CreateShortcut("$Home\Desktop\shutup10.lnk")
+# $target_path = $shutup10_install_path_only + "\tools\OOSU10.exe"
+# $Shortcut.TargetPath = $target_path
+# $Shortcut.Save()
+# Write-Host "O&O Shutup10 installed."
 ## OOSU10 - END
 
 
