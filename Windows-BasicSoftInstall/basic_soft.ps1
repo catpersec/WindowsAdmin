@@ -15,18 +15,34 @@ catch {
 
 choco feature enable -n allowGlobalConfirmation
 
-# NOTEPADS
-## NOTION
+## - NOTEPADS
+## --- NOTION
 #choco install notion --force
 
-# TO-DO TOOLS
-## TICKTICK
-# MANUAL DOWNLOAD!
 
-## Text editors
+
+## - CODING
+## --- VSCODE
+# choco install vscode --force
+
+
+
+## - GPO
+## --- ShutUp10
+# choco install shutup10
+
+
+
+## - TEXT EDITORS
 #choco install notepadplusplus.install --force
 
-## Image editors
+
+
+## - DRIVERS MGMT
+
+
+
+## IMAGE EDITORS
 #choco install paint.net --force
 #choco install gimp --force
 
@@ -49,15 +65,18 @@ choco feature enable -n allowGlobalConfirmation
 ## PDF editors
 #choco install PDFXchangeEditor --force
 
+## EBOOKS readers
+#choco install calibre --force
+
 ## Archives
 #choco install 7zip.install --force
 
 ## Chat apps
 #choco install discord --force
 
-# Password manager
-## BITWARDEN
-#choco install Bitwarden --force
+## HOTKEYS
+#choco install autohotkey --force
+
 
 # Manage windows
 ## OOSU10 - START (uncomment all lines in section in order to create shurtcut to oosu on desktop)
