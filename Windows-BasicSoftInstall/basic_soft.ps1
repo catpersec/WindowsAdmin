@@ -15,7 +15,7 @@ catch {
 
 choco feature enable -n allowGlobalConfirmation
 
-## - NOTEPADS
+## - NOTBOOK APPS
 ## --- NOTION
 #choco install notion --force
 
@@ -24,13 +24,7 @@ choco feature enable -n allowGlobalConfirmation
 ## - CODING
 ## --- VSCODE
 # choco install vscode --force
-
-
-
-## - GPO
-## --- ShutUp10
-# choco install shutup10
-
+# choco install github-desktop --force
 
 
 ## - TEXT EDITORS
@@ -38,45 +32,79 @@ choco feature enable -n allowGlobalConfirmation
 
 
 
-## - DRIVERS MGMT
-
-
-
 ## IMAGE EDITORS
 #choco install paint.net --force
 #choco install gimp --force
+
+
 
 ## Video players
 #choco install vlc --force
 #choco install potplayer --force
 
+
+
 ## Music players
 #choco install spotify --force
 
-## Browsers
+
+
+## Internet Browsers
 # choco install Firefox --force
 # choco GoogleChrome --force
 # choco install Opera --force
+
+
+
+## DOWNLOADERS
+# choco install 4k-video-downloader --force
 
 ## PDF reading
 #choco install adobereader --force
 #choco install FoxitReader --force
 
+
+
 ## PDF editors
 #choco install PDFXchangeEditor --force
+
+
 
 ## EBOOKS readers
 #choco install calibre --force
 
+
+
 ## Archives
 #choco install 7zip.install --force
+
+
 
 ## Chat apps
 #choco install discord --force
 
+
+
 ## HOTKEYS
 #choco install autohotkey --force
 
+
+## DISK MGMT (PARTITIONS ETC)
+#choco install partition-assistant-standard --force
+
+
+
+## JAVA
+#choco install jre8 --force
+
+
+
+### LOGITECH
+#choco install logioptionsplus --force
+
+
+## FTP/SFTP/SCP
+#choco install winscp --force
 
 # Manage windows
 ## OOSU10 - START (uncomment all lines in section in order to create shurtcut to oosu on desktop)
@@ -97,10 +125,14 @@ choco feature enable -n allowGlobalConfirmation
 ## OOSU10 - END
 
 
+
 ## Windows tools
 #choco install windirstat --force
 #choco install powershell-core --force
+#choco install powertoys --force
 
+## OTHER TOOLS
+#choco install rufus --force
 
 #resources
 #https://www.reddit.com/r/chocolatey/comments/esqqfz/is_it_possible_to_install_multiple_packages_at/
