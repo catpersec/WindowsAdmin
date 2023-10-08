@@ -28,4 +28,8 @@ $scriptBlock = {
 
 $pcList = Get-Content .\pcList.txt
 
+Invoke-Command -ComputerName $pcList -ScriptBlock {
+    wevtutil sl Microsoft-Windows-PrintService/Operational /ms:52428800
+}
+
 Invoke-Command $pcList -ScriptBlock $scriptBlock -ArgumentList $networkLocation
