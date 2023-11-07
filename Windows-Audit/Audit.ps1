@@ -51,6 +51,20 @@ function basic {
     Read-Host "Aby kontynuwac nacisnij ENTER"
     Clear-Host
 
+    # DATA AKTUALIZACJI SYSTEMU
+    Write-Host "[CHECK] Data ostatnich aktualizacji Windows:" -ForegroundColor Black -BackgroundColor Green -NoNewline
+    Write-Host "" -ForegroundColor White -BackgroundColor Black
+    get-wmiobject -class win32_quickfixengineering
+    Write-Host "" -ForegroundColor White -BackgroundColor Black
+    Write-Host ""
+    Write-Host "[CHECK] Data ostatnich poprawek bezpieczenstwa:" -ForegroundColor Black -BackgroundColor Green -NoNewline
+    #Write-Host "" -ForegroundColor White -BackgroundColor Black
+    Get-MpComputerStatus | Select-Object AntivirusSignatureLastUpdated, AntispywareSignatureLastUpdated, NISSignatureLastUpdated | fl
+    Write-Host ""
+    Read-Host "Aby kontynuwac nacisnij ENTER"
+    Clear-Host
+
+
     # WERSJA SYSTEMU
     Write-Host "[CHECK] Sprawdzenie Wersji systemu" -ForegroundColor Black -BackgroundColor Green -NoNewline
     Write-Host "" -ForegroundColor White -BackgroundColor Black
@@ -60,12 +74,27 @@ function basic {
     Clear-Host
 
     # DYSKI
-    Write-Host "[CHECK] Lista dyskow + formatowanie partycji:`t" -ForegroundColor Black -BackgroundColor Green -NoNewline
+    Write-Host "[CHECK] Lista partycji + formatowanie partycji:`t" -ForegroundColor Black -BackgroundColor Green -NoNewline
     Write-Host "" -ForegroundColor White -BackgroundColor Black
-    Get-WmiObject -Class Win32_LogicalDisk  | select DeviceID, DriveType, FileSystem, VolumeSerialNumber, VolumeName |ft -autosize | out-host
+    Get-WmiObject -Class Win32_LogicalDisk  | select DeviceID, DriveType, FileSystem, VolumeSerialNumber, VolumeName | ft -autosize | out-host
+    Write-Host ""
+
+    Write-Host "[CHECK] Lista dyskow fizycznych + parametry:`t" -ForegroundColor Black -BackgroundColor Green
+    Write-Host "" -ForegroundColor White -BackgroundColor Black
+    $physicalDisks = Get-PhysicalDisk
+    $enumDisks = 0
+    foreach ($disk in $physicalDisks){
+    $enumDisks = $enumDisks + 1
+        Write-Host "DYSK nr $enumDisks" -ForegroundColor Black -BackgroundColor Yellow
+        Write-Host "FriendlyName: " $disk.FriendlyName
+        Write-Host "SerialNumber: " $disk.SerialNumber -NoNewline
+        Write-Host " lub " $disk.FruId
+        Write-Host "Size:         " ($disk.size / 1gb) "GB"
+    }
     Write-Host ""
     Read-Host "Aby kontynuwac nacisnij ENTER"
     Clear-Host
+    
 
     # AKTYWACJA SYSTEMU
     Write-Host "[CHECK] Sprawdzenie aktywacji systemu" -ForegroundColor Black -BackgroundColor Green -NoNewline
