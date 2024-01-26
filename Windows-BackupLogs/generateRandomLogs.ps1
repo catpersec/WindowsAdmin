@@ -7,11 +7,6 @@ function Generate-RandomEvents {
 
     $eventTypes = @( 'Error', 'Warning', 'Information', 'SuccessAudit', 'FailureAudit')
 
-    # Register the event source if not already registered
-    if (-not [System.Diagnostics.EventLog]::SourceExists($source)) {
-        [System.Diagnostics.EventLog]::CreateEventSource($source, $logName)
-    }
-
     for ($i = 1; $i -le 10; $i++) {
         $eventType = Get-Random -InputObject $eventTypes
         $eventID = Get-Random -Minimum 100 -Maximum 1000
@@ -24,8 +19,3 @@ function Generate-RandomEvents {
 # Generate random events in Application log
 Generate-RandomEvents -logName 'Application' -source 'RandomEventGenerator'
 
-# Generate random events in System log
-Generate-RandomEvents -logName 'System' -source 'RandomEventGenerator'
-
-# Generate random events in Security log
-Generate-RandomEvents -logName 'Security' -source 'RandomEventGenerator'

@@ -1,13 +1,15 @@
-# Define variables
+# ZMIENNE
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $computerName = $ENV:COMPUTERNAME
-$backupFolder = "C:\00_ADMIN\tempLogs\logsBackup_$computerName""_$timestamp"
-$zipFileName = "logsBackup_$computerName$timestamp.zip"
+$backupFolder = "C:\00_ADMIN\tempLogs\logsBackup_$computerName-$timestamp"
+$backupFolderMain = "C:\00_ADMIN\tempLogs"
+$zipFileName = "logsBackup_$computerName-$timestamp.zip"
 $networkLocation = "C:\00_ADMIN\destLogs"
 
 
 
-# Enable print log if disabled
+# PRINT LOG ENABLE
+## Skrypt wlacza domyslnie wylaczony dziennik zdarzeń Drukowania
 $logFullStatus = Get-WinEvent -ListLog Microsoft-Windows-PrintService/Operational -OutVariable PrinterLog
 $logEnableStatus = $logFullStatus.IsEnabled
 if ($logEnableStatus){
@@ -19,14 +21,15 @@ else {
 
 
 
-# Create backup folder if it doesn't exist
+# LOCAL LOG FOLDER 
+## Skrypt stworzy lokalny folder na backup logow jesli taki nie istnieje 
 if (-not (Test-Path -Path $backupFolder -PathType Container)) {
     New-Item -ItemType Directory -Path $backupFolder
 }
 
 
 
-# EXPORT
+# BACKUP LOGOW
 ## Export Security, System, Application, Setup Windows logs to EVTX files
 foreach ($logName in "Security", "System", "Application") {
     $evtxFileName = "$backupFolder\$logName-$timestamp.evtx"
@@ -37,21 +40,71 @@ $printLogFile = Get-ChildItem -Path "C:\Windows\System32\winevt\logs" -Filter "*
 Copy-Item -Path $printLogFile -Destination "$backupFolder\printLog-$timestamp.evtx" -Force
 
 
-# COMPRESS
-## Compress EVTX files into a ZIP file
+
+# KOMPRESOWANIE LOGOW
+## Skrypt kompresuje pliki *.evtx do archiwum ZIP
 Compress-Archive -Path "$backupFolder\*.evtx" -DestinationPath "$backupFolder\$zipFileName"
 
-# COPY
-## Copy ZIP file to network location
+
+
+# KOPIA LOGOW NA ZASOB SIECIOWY
+## Skrypt skopiuje plik ZIP na zdefiniowany w zmiennych zasob sieciowy
 Copy-Item -Path "$backupFolder\$zipFileName" -Destination $networkLocation -Force
 
 
-#CLEAR
-## Clear Security, System, Application, Logs
-foreach ($logName in "Security", "System", "Application") {
-    Clear-EventLog -LogName $logName
+
+# CZYSZCZENIE LOGOW
+## SAFETY CHECK - sprawdza czy liczba zbackupowanych logow wynosi 4 - jeżeli nie, to czyszczenie nie zostanie przeprowadzone
+$logCount = (Get-ChildItem $backupFolder | Where-Object Name -Match ".evtx" | Measure-Object ).Count;
+
+$logList = Get-ChildItem $backupFolder | Where-Object Name -Match ".evtx" | Select-Object Name
+$array = @()
+
+foreach ($log in $logList){
+    $name = $log.Name
+    $array += "$name"
 }
-## Clear Print Logs
-$LogName = 'Microsoft-Windows-PrintService/Operational'
-wevtutil.exe cl $LogName
+
+$bodyLogList = $array -join "`n"
+
+
+## Skrypt czyscci logi lub w przypadku niezgodnej liczby logow - tworzy warning
+if ($logCount -eq 3){
+    foreach ($logName in "Security", "System", "Application") {
+        Clear-EventLog -LogName $logName
+    }
+    
+    $LogName = 'Microsoft-Windows-PrintService/Operational'
+    wevtutil.exe cl $LogName
+}
+else
+{
+    # Tworzenie WARNINGU
+    $warningFileName = "WARNING-LOG-BACKUP_$computerName-$timestamp-.txt"
+    $fileContent = @"
+    Liczba zarchiwizowanych logow nie wynosila 4.
+    Logi NIE zostaly wyczyszczone.
+    
+    Tylko ponizsze logi zostaly zarchiwizowane i skopiowane na zasob sieciowy:
+    $bodyLogList  
+    
+    Przeprowadz identyfikacje problemu, a następnie manualnie wyczysc logi.
+"@
+
+    $filePath = Join-Path -Path $backupFolderMain -ChildPath $warningFileName
+    Set-Content -Path $filePath -Value $fileContent
+
+}
+
+
+## Skopiowanie WARNINGU na zasob sieciowy
+Copy-Item -Path "$backupFolderMain\$warningFileName" -Destination $networkLocation -Force
+
+
+# USUNIECIE PLIKOW EVTX
+## Skrypt usuwa pliki *.EVTX z lokalnego folderu backupu logow.
+## Plik *.ZIP ze zarchiwizowanymi logami pozostaje na dysku
+Get-ChildItem -Path $backupFolder | Where-Object Name -Match ".evtx" | ForEach-Object {
+    Remove-Item -Path $_.FullName -Force
+}
 
