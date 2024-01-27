@@ -4,8 +4,16 @@ $computerName = $ENV:COMPUTERNAME
 $backupFolder = "C:\00_ADMIN\tempLogs\logsBackup_$computerName-$timestamp"
 $backupFolderMain = "C:\00_ADMIN\tempLogs"
 $zipFileName = "logsBackup_$computerName-$timestamp.zip"
-$networkLocation = "C:\00_ADMIN\destLogs"
+$networkLocation = "\\WIN11-VM\destLogs"
 
+# # NETWORK SHARE CHECK
+
+# # Check if the network share is accessible
+# if (Test-Path $networkLocation) {
+#     Write-Host "SMB network share ($networkLocation) is accessible."
+# } else {
+#     Write-Host "SMB network share ($networkLocation) is not accessible."
+# }
 
 
 # PRINT LOG ENABLE
@@ -68,8 +76,8 @@ foreach ($log in $logList){
 $bodyLogList = $array -join "`n"
 
 
-## Skrypt czyscci logi lub w przypadku niezgodnej liczby logow - tworzy warning
-if ($logCount -eq 3){
+## Skrypt czyscci logi lub w przypadku niezgodnej liczby logow - tworzy WARNING
+if ($logCount -eq 4){
     foreach ($logName in "Security", "System", "Application") {
         Clear-EventLog -LogName $logName
     }
@@ -93,12 +101,12 @@ else
 
     $filePath = Join-Path -Path $backupFolderMain -ChildPath $warningFileName
     Set-Content -Path $filePath -Value $fileContent
+    ## Skopiowanie WARNINGU na zasob sieciowy
+    Copy-Item -Path "$backupFolderMain\$warningFileName" -Destination $networkLocation -Force
 
 }
 
 
-## Skopiowanie WARNINGU na zasob sieciowy
-Copy-Item -Path "$backupFolderMain\$warningFileName" -Destination $networkLocation -Force
 
 
 # USUNIECIE PLIKOW EVTX
