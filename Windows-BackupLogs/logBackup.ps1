@@ -1,8 +1,8 @@
 # ZMIENNE
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $computerName = $ENV:COMPUTERNAME
-$backupFolder = "C:\00_ADMIN\tempLogs\logsBackup_$computerName-$timestamp"
-$backupFolderMain = "C:\00_ADMIN\tempLogs"
+$backupFolder = "C:\00_ADMIN\localLogsBackup\logsBackup_$computerName-$timestamp"
+$backupFolderMain = "C:\00_ADMIN\localLogsBackup"
 $zipFileName = "logsBackup_$computerName-$timestamp.zip"
 $networkLocation = "\\WIN11-VM\destLogs"
 
@@ -41,7 +41,8 @@ if (-not (Test-Path -Path $backupFolder -PathType Container)) {
 ## Export Security, System, Application, Setup Windows logs to EVTX files
 foreach ($logName in "Security", "System", "Application") {
     $evtxFileName = "$backupFolder\$logName-$timestamp.evtx"
-    Get-WinEvent -LogName $logName | Export-Clixml $evtxFileName
+    wevtutil /epl $evtxFileName
+    # Get-WinEvent -LogName $logName | Export-Clixml $evtxFileName
 }
 ## Export Print logs
 $printLogFile = Get-ChildItem -Path "C:\Windows\System32\winevt\logs" -Filter "*printservice*operational*"
