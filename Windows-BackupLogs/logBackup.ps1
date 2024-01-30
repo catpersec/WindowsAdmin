@@ -6,16 +6,6 @@ $backupFolderMain = "C:\00_ADMIN\localLogsBackup"
 $zipFileName = "logsBackup_$computerName-$timestamp.zip"
 $networkLocation = "\\WIN11-VM\destLogs"
 
-# # NETWORK SHARE CHECK
-
-# # Check if the network share is accessible
-# if (Test-Path $networkLocation) {
-#     Write-Host "SMB network share ($networkLocation) is accessible."
-# } else {
-#     Write-Host "SMB network share ($networkLocation) is not accessible."
-# }
-
-
 # PRINT LOG ENABLE
 ## Skrypt wlacza domyslnie wylaczony dziennik zdarzeń Drukowania
 $logFullStatus = Get-WinEvent -ListLog Microsoft-Windows-PrintService/Operational -OutVariable PrinterLog
